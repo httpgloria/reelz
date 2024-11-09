@@ -19,7 +19,7 @@ Reelz is a video sharing mobile application built using React Native, designed t
   
 ### Screenshots
 #### Landing page
-![IMG_5487](https://github.com/user-attachments/assets/06756a5e-2330-4db3-90a6-200958958e67)
+<img src="https://github.com/user-attachments/assets/06756a5e-2330-4db3-90a6-200958958e67" width="300" />
 #### Create and record screen
 ![IMG_5497](https://github.com/user-attachments/assets/8457b1a8-bc4e-4750-9055-53e318b793d2)
 ![IMG_5499](https://github.com/user-attachments/assets/f2249aae-17a0-4f64-9302-fbec1007c3fe)

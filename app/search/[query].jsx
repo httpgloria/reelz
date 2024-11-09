@@ -17,7 +17,8 @@ const Search = () => {
     searchPosts(type, query, user)
   );
 
-  console.log(`query: ${query}, type: ${type}`);
+  // console.log(`query: ${query}, type: ${type}`);
+  // console.log(posts);
 
   useEffect(() => {
     refetch();
@@ -28,7 +29,9 @@ const Search = () => {
       <FlatList
         data={posts}
         keyExtractor={(item) => item.$id}
-        renderItem={({ item }) => <VideoCard video={item} />}
+        renderItem={({ item }) => (
+          <VideoCard video={type == "home" ? item : item.videos} />
+        )}
         ListHeaderComponent={() => (
           <View className="my-6 px-4">
             <Text className="font-medium text-sm text-gray-100">

@@ -26,7 +26,7 @@ const VideoCard = ({
 
   const addLike = async () => {
     try {
-      let data = { videoId: $id, userId: user.$id };
+      let data = { videoId: $id, userId: user.$id, title: title };
       const newLike = await createLike(data);
       console.log("like created successfully");
       setData([...likes, newLike]);

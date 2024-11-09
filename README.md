@@ -16,5 +16,15 @@ Reelz is a video sharing mobile application built using React Native, designed t
 - **Expo Camera**: To handle video recording functionality on mobile devices.
 - **Expo Video**: For video playback and management within the app.
 - **Appwrite**: For backend services including user authentication, database management, and file storage.
-
+  
+### Screenshots
+#### Landing page
+![IMG_5487](https://github.com/user-attachments/assets/06756a5e-2330-4db3-90a6-200958958e67)
+#### Create and record screen
+![IMG_5497](https://github.com/user-attachments/assets/8457b1a8-bc4e-4750-9055-53e318b793d2)
+![IMG_5499](https://github.com/user-attachments/assets/f2249aae-17a0-4f64-9302-fbec1007c3fe)
+#### Home page
+![IMG_5500](https://github.com/user-attachments/assets/0de17ea7-7c08-4c4c-bf8e-dbd74f6ca45a)
+#### Bookmarks page
+![IMG_5495](https://github.com/user-attachments/assets/100e133d-62b1-46a6-97cc-436f09479568)
 <p align="right">(<a href="#readme-top">back to top</a>)</p>

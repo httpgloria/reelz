@@ -1,41 +1,47 @@
-import { View, Text, Image, TouchableOpacity } from "react-native";
+import { View, Text, Image, TouchableOpacity, Alert } from "react-native";
 import React, { useEffect, useState } from "react";
 import { icons } from "../constants";
 
 import { ResizeMode, Video } from "expo-av";
 import { useGlobalContext } from "../context/GlobalProvider";
-import { updateLikes } from "../lib/appwrite";
+import { createLike, getLikes, deleteLike } from "../lib/appwrite";
+import useAppwrite from "../lib/useAppwrite";
 
 const VideoCard = ({
   video: {
+    $id,
     title,
     thumbnail,
     video,
-    $id,
-    liked,
     users: { username, avatar },
   },
 }) => {
-  const { user, likes, setLikes } = useGlobalContext();
+  const { user } = useGlobalContext();
+  const { data: likes, setData } = useAppwrite(async () => {
+    return await getLikes(user.$id);
+  });
   const [play, setPlay] = useState(false);
+
+  // console.log(likes);
 
   const addLike = async () => {
     try {
-      if (likes.find((obj) => obj.$id == user.$id) !== undefined) {
-        console.log("unlike:", $id);
-        await updateLikes($id, user.$id, "unliked");
-        const updatedLikes = likes.filter((video) => video.$id !== $id);
-        setLikes(updatedLikes);
-        console.log("unlike updated successfully");
-      } else {
-        console.log("like:", $id);
-        const updatedPost = await updateLikes($id, user.$id, "liked");
-        setLikes([...likes, updatedPost]);
-        console.log("like updated successfully!");
-      }
+      let data = { videoId: $id, userId: user.$id };
+      const newLike = await createLike(data);
+      console.log("like created successfully");
+      setData([...likes, newLike]);
     } catch (error) {
-      console.log(error.message);
+      Alert.alert(error.message);
     }
+  };
+
+  const unlike = async () => {
+    const { $id: documentToDelete } = likes.find(
+      (document) => document.videos.$id === $id
+    );
+    await deleteLike(documentToDelete);
+    console.log("like deleted");
+    setData(likes.filter((document) => document.$id !== documentToDelete));
   };
 
   return (
@@ -66,21 +72,25 @@ const VideoCard = ({
           </View>
         </View>
         <View className="pt-2">
-          <TouchableOpacity onPress={addLike}>
-            {likes.find((video) => video.$id === $id) ? (
+          {likes.find((document) => document.videos.$id === $id) ? (
+            <TouchableOpacity onPress={unlike}>
               <Image
                 source={icons.heartFull}
                 className="w-5 h-5"
                 resizeMode="contain"
               />
-            ) : (
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity onPress={addLike}>
               <Image
                 source={icons.heartLine}
                 className="w-5 h-5"
                 resizeMode="contain"
               />
-            )}
-          </TouchableOpacity>
+            </TouchableOpacity>
+          )}
+          {/* <TouchableOpacity onPress={addLike}>
+          </TouchableOpacity> */}
         </View>
         <View className="pt-2">
           <Image source={icons.menu} className="w-5 h-5" resizeMode="contain" />

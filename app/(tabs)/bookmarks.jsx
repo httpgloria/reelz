@@ -1,24 +1,19 @@
-import {
-  View,
-  Text,
-  FlatList,
-  RefreshControl,
-  Image,
-  VirtualizedList,
-} from "react-native";
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
+import { View, Text, FlatList, RefreshControl, Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import useAppwrite from "../../lib/useAppwrite";
-import { getAllPosts, getLikedVideos } from "../../lib/appwrite";
 import { useGlobalContext } from "../../context/GlobalProvider";
-import EmptyState from "../../components/EmptyState";
-import SearchInput from "../../components/SearchInput";
-import VideoCard from "../../components/VideoCard";
+import useAppwrite from "../../lib/useAppwrite";
+import { getLikes } from "../../lib/appwrite";
 import { images } from "../../constants";
+import SearchInput from "../../components/SearchInput";
+import EmptyState from "../../components/EmptyState";
+import VideoCard from "../../components/VideoCard";
 
 const Bookmark = () => {
-  const { likes } = useGlobalContext();
-  const { data: posts, refetch } = useAppwrite(getAllPosts);
+  const { user } = useGlobalContext();
+  const { data: likes, refetch } = useAppwrite(async () => {
+    return await getLikes(user.$id);
+  });
   const [refreshing, setRefreshing] = useState(false);
 
   const onRefresh = async () => {
@@ -29,13 +24,10 @@ const Bookmark = () => {
 
   return (
     <SafeAreaView className="bg-primary h-full">
-      <VirtualizedList
+      <FlatList
         data={likes}
-        initialNumToRender={2}
         keyExtractor={(item) => item.$id}
-        renderItem={({ item }) => <VideoCard video={item} />}
-        getItemCount={(data) => data.length}
-        getItem={(data, index) => data[index]}
+        renderItem={({ item }) => <VideoCard video={item.videos} />}
         ListHeaderComponent={() => (
           <View className="my-6 px-4 space-y-6">
             <View className="justify-between items-start flex-row mb-6">

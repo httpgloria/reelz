@@ -130,7 +130,7 @@ const Create = () => {
       Alert.alert("Success", "Post uploaded successfully.");
       router.push("/home");
     } catch (error) {
-      Alert.alert("Error from create.jsx", error.message);
+      Alert.alert(error.message);
     } finally {
       setForm({ title: "", video: null, thumbnail: null, prompt: "" });
 
